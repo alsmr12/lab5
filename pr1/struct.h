@@ -1,10 +1,10 @@
 #include <stdio.h>
 
+#ifndef STRUCT_H
 #define STRUCT_H
-#ifdef STRUCT_H
 
 typedef struct {
-    char fio[81];
+    char *fio;
     char ps[8];
     int age;
 } el;
