@@ -51,3 +51,10 @@ void el_array_input(el **arr, int *len, FILE *f) {
     --(*len);
     *arr = (el *)realloc(*arr, *len * sizeof(el));
 }
+
+void arr_free(el *arr, int len) {
+    for (int i = 0; i < len; i++) {
+        free(arr[i].fio);
+    }
+    free(arr);
+}

@@ -48,9 +48,6 @@ int main(int argc, char *argv[]) {
     el_array_print(arr, len, f2);
     fclose(f2);
     fclose(f1);
-    //free(field);
-    //free(dir);
-    //free(optarg);
-    free(arr);
+    arr_free(arr, len);
     printf("\n\nПрограмма завершена\n\n");
 }
