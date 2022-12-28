@@ -37,7 +37,7 @@ void el_array_print(const el *arr, int len, FILE *f) {
     }
 }
 
-void el_array_input(el **arr, int *len, FILE *f) {
+int el_array_input(el **arr, int *len, FILE *f) {
     *len = 0;
     int t = 1;
     while (t > 0) {
@@ -45,11 +45,14 @@ void el_array_input(el **arr, int *len, FILE *f) {
         *arr = (el *)realloc(*arr, *len * sizeof(el));
         ((*arr)[*len - 1].fio) = freadline(f);
         if (((*arr)[*len - 1].fio) == NULL) break;
-        fscanf(f, "%s%*c", ((*arr)[*len - 1].ps));
-        fscanf(f, "%d%*c", &((*arr)[*len - 1].age));
+        fscanf(f, "%8[^\n]%*c", ((*arr)[*len - 1].ps));
+        t = fscanf(f, "%d", &((*arr)[*len - 1].age));
+        fscanf(f, "%*c");
+        if (t != 1) return 1;
     }
     --(*len);
     *arr = (el *)realloc(*arr, *len * sizeof(el));
+    return 0;
 }
 
 void arr_free(el *arr, int len) {

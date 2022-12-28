@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
                 dir = optarg;
                 break;
             default:
-                printf("\n! Была проигнорированна неверно введённая опция\n");
+                printf("! Была проигнорированна неверно введённая опция\n\n");
         }
     }
     
@@ -37,7 +37,12 @@ int main(int argc, char *argv[]) {
 
     el *arr = NULL;
     int len;
-    el_array_input(&arr, &len, f1);
+    int t = el_array_input(&arr, &len, f1);
+    if (t != 0) {
+        printf("\nНекорректные данные!\n");
+        arr_free(arr, len);
+        exit(1);
+    }
     clock_t begin, end;
     begin = clock();
     sort(arr, len, sizeof(el), cmp);
