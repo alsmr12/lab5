@@ -8,15 +8,23 @@
 #include "sort.h"
 
 int main(int argc, char *argv[]) {
-    getopt(argc, argv, "q:a::f::d::");
+    int t = getopt(argc, argv, "l:q:a::f::d::");
+    if (t != (int)'l') {
+        printf("Ошибка. Не были введены обязательные аргументы,\nлибо были введены в неправильном порядке.\n");
+        exit(1);
+    }
     int len = atoi(optarg);
-    //getopt(argc, argv, "q:a::f::d::");
-    //FILE *f2 = fopen(optarg, "w");
+    t = getopt(argc, argv, "l:q:a::f::d::");
+    if (t != (int)'q') {
+        printf("Ошибка. Не были введены обязательные аргументы.\n");
+        exit(1);
+    }
+    int q = atoi(optarg);
     int numsort = 0;
     char *field = NULL;
     char *dir = NULL;
     int opt;
-    while ((opt = getopt(argc, argv, "q:o:a::f::d::")) != -1) {
+    while ((opt = getopt(argc, argv, "l:q:a::f::d::")) != -1) {
         switch (opt) {
             case 'a':
                 numsort = (int)*optarg;
@@ -36,16 +44,18 @@ int main(int argc, char *argv[]) {
     void (*sort)(el *, size_t,  size_t,  int (*)(const el *, const el *)) = chouse_sort(numsort);
 
     el *arr = NULL;
-    el_array_input(&arr, len);
     clock_t begin, end;
-    begin = clock();
-    sort(arr, len, sizeof(el), cmp);
-    end = clock();
-    float time = (float)(end - begin) / CLOCKS_PER_SEC;
+    float time = 0;
+    for (int i = 0; i < q; i++) {
+        el_array_input(&arr, len);
+        begin = clock();
+        sort(arr, len, sizeof(el), cmp);
+        end = clock();
+        free_arr(&arr, len);
+        time = time + (float)(end - begin) / CLOCKS_PER_SEC;
+        //printf("\nВремя выполнения - %f секунд", (float)(end - begin) / CLOCKS_PER_SEC);
+    }
     printf("\nВыполнено");
-    printf("\nВремя выполнения - %f секунд", time);
-    //el_array_print(arr, len, f2);
-    //fclose(f2);
-    free_arr(&arr, len);
+    printf("\nСреднее время выполнения - %f секунд", time / q);
     printf("\n\nПрограмма завершена\n\n");
 }

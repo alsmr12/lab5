@@ -8,9 +8,18 @@
 #include "sort.h"
 
 int main(int argc, char *argv[]) {
-    getopt(argc, argv, "i:o:a::f::d::");
+    int t = getopt(argc, argv, "i:o:a::f::d::");
+    if (t != (int)'i') {
+        printf("Ошибка. Не были введены обязательные аргументы,\nлибо были введены в неправильном порядке.\n");
+        exit(1);
+    }
     FILE *f1 = fopen(optarg, "r");
-    getopt(argc, argv, "i:o:a::f::d::");
+    t = getopt(argc, argv, "i:o:a::f::d::");
+    if (t != (int)'o') {
+        printf("Ошибка. Не были введены обязательные аргументы,\nлибо были введены в неправильном порядке.\n");
+        fclose(f1);
+        exit(1);
+    }
     FILE *f2 = fopen(optarg, "w");
     int numsort = 0;
     char *field = NULL;
@@ -37,7 +46,7 @@ int main(int argc, char *argv[]) {
 
     el *arr = NULL;
     int len;
-    int t = el_array_input(&arr, &len, f1);
+    t = el_array_input(&arr, &len, f1);
     if (t != 0) {
         printf("\nНекорректные данные!\n");
         arr_free(arr, len);

@@ -66,11 +66,10 @@ void comb_sort(el *arr, size_t size, size_t size_el, int (*cmp)(const el*, const
             gap = 1;
         c = 0;
         for (i = 0; i < size - gap; ++i) {
-            j = i + gap;
-            if (cmp(&(arr[i]), &(arr[j])) > 0) { 
-                el tmp = arr[i];  // написать swap
-                arr[i] = arr[j];
-                arr[j] = tmp;
+            if (cmp(&(arr[i]), &(arr[i + gap])) > 0) { 
+                el tmp = arr[i];
+                arr[i] = arr[i + gap];
+                arr[i + gap] = tmp;
                 c = 1;
             }
         }
